@@ -7,19 +7,21 @@ June 4th 2015
 Can compress and decompress text files using huffman compression
 */
 
+// This is a test comment
+
 import java.util.*;
 import java.io.*;
 public class HuffmanCode{
-   
+
    private HuffmanNode huffmanRoot; //The top of the huffman code
-   
-   //Pre: Assumes that frequencies is not null, in the format of 
-   //     index = character, frequencies[i] = number of occurences 
+
+   //Pre: Assumes that frequencies is not null, in the format of
+   //     index = character, frequencies[i] = number of occurences
    //Post: Initializes a huffman code object
    public HuffmanCode(int[] frequencies) {
       Queue<HuffmanNode> order = new PriorityQueue<HuffmanNode>();
       for(int i = 0; i < frequencies.length; i++){
-         if(frequencies[i] != 0){ 
+         if(frequencies[i] != 0){
             order.add(new HuffmanNode((char) ('0' + (i - 48)) , frequencies[i]));
          }
       }
@@ -28,11 +30,11 @@ public class HuffmanCode{
          HuffmanNode right = order.remove();
          HuffmanNode currentRoot = new HuffmanNode(null ,left.freq + right.freq, left, right);
          order.add(currentRoot);
-      }      
+      }
       this.huffmanRoot = order.remove();
    }
-   
-   //Pre: Assumes scanner is not null, accepts data in the format of 
+
+   //Pre: Assumes scanner is not null, accepts data in the format of
    //     character -> frequency.
    //Post: Initializes a huffmancode object using an existing
    public HuffmanCode(Scanner input) {
@@ -42,7 +44,7 @@ public class HuffmanCode{
          this.huffmanRoot = this.createTree(huffmanRoot, code, charName);
       }
    }
-   
+
 
    //Post: Creates a huffman code that navigates through ones (left) and zeroes(right)
    private HuffmanNode createTree(HuffmanNode root, String code, int charName) {
@@ -50,8 +52,8 @@ public class HuffmanCode{
          root = new HuffmanNode((char)charName, 0);
       } else{
          if(root == null){
-            root = new HuffmanNode(null, 0);   
-         }   
+            root = new HuffmanNode(null, 0);
+         }
          if(code.charAt(0) == '0'){
             root.left = createTree(root.left, code.substring(1,code.length()), charName);
          } else {
@@ -60,14 +62,14 @@ public class HuffmanCode{
       }
       return root;
    }
-  
+
   //Pre: Assumes output is not null
   //Post: Saves the huffman code to an output. It creates a pathway
   //      using 0 as left and 1 as right.
    public void save(PrintStream output){
       this.save(huffmanRoot,"", output);
    }
-   
+
    //Post: Traverses the tree saving both the path and the character
    private void save(HuffmanNode root,String path, PrintStream output){
    if(root != null){
@@ -80,8 +82,8 @@ public class HuffmanCode{
          }
       }
    }
-   
-   
+
+
    //Pre: Requires that both input and output are not null
    //Post: Decodes the huffmancode given
    public void translate(BitInputStream input, PrintStream output){
